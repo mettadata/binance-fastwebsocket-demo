@@ -1,4 +1,5 @@
 use anyhow::Result;
+use chrono::Local;
 use fastwebsockets::{FragmentCollector, OpCode};
 use http_body_util::Empty;
 use hyper::body::Bytes;
@@ -68,7 +69,7 @@ async fn main() -> Result<()> {
         match msg.opcode {
             OpCode::Text => {
                 let text = String::from_utf8_lossy(&msg.payload);
-                println!("Text: {}", text);
+                println!("{}: Text: {}", Local::now().timestamp_millis(), text);
             }
             OpCode::Binary => {
                 println!("Binary: {:?}", msg.payload);
